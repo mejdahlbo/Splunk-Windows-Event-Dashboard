@@ -23,38 +23,39 @@ We have been set the task to create a dashboard in Splunk using **Windows Events
 ## Making sure we are using the correct index file for the lab
 We are using the command **”index="mydfir-lab1”** to check we have **5931 events** as this will confirm we are working with the correct index file.
 
-**INSERT IMAGE 1**
+![1 - Correct Index](https://github.com/user-attachments/assets/83c7cad6-a232-439f-ab3d-7074ebe08d77)
 
 ## Building our First query - Successful logins excluding System Accounts
 For the dashboard for **Successful logins excluding System Accounts** and we are only interested in **Windows** event logs. We do this by selecting the Field name **host** and from here we select **winvm**.
 
-**INSERT IMAGE 2**
+![1 - host](https://github.com/user-attachments/assets/51bbfdf5-913c-4c28-b323-5137bd75c793)
 
 Our query looks like this: **index="mydfir-lab1" host=winvm** which returns **993 Events**.
 
-**INSERT IMAGE 3**
+![2- winvm](https://github.com/user-attachments/assets/adb98427-fa29-43f7-9a77-f61f5edc2d4b)
+
 
 Next we want to get the Windows ID code for **Successful Windows logins** and to get this we will use the following query in Google: **windows successful logon event code** where we get the ID is **4624**.
 
-**INSERT IMAGE 4**
+![3- Google](https://github.com/user-attachments/assets/920ecc47-f8ac-45bd-bc74-3c1ef307b7d5)
 
 With this info we go back to our Splunk query and click on the first event to look for the **field name** being used for the **Windows Event ID**.
 
-**INSERT IMAGE 5**
+![4 - First event](https://github.com/user-attachments/assets/e22411b6-1b54-4f27-b007-dc52888f33a0)
 
-**INSERT IMAGE 6**
+![5 - Event Code](https://github.com/user-attachments/assets/ea8356c9-2372-4fb1-a03e-ba61d51fe04e)
 
 We see the field name **EventCode 4672** and this is the field we will use to build further on our query. However we want to verify and confirm that we are working with the correct **Field name**. We do this with this Google search: **windows event id 4672** and get the code is for **Special privileges assigned to new logon**.
 
-**INSERT IMAGE 7**
+![6 - 4672](https://github.com/user-attachments/assets/86cc4e4c-f330-46b5-bf4a-8c1bed34de63)
 
 With the above info our query for the Event Code 4624 looks like this: **index="mydfir-lab1" host=winvm EventCode=4624** and now have **278 events**.
 
-**INSERT IMAGE 8**
+![7 - 4624](https://github.com/user-attachments/assets/1afa6148-16f6-4e7a-a302-cb4651f65cbb)
 
 Next we want to look for a **field name** which can help us to identify the account name, and by this rule out **System Accounts**. We go back to our events and click on the **first event**.
 
-**INSERT IMAGE 9**
+![9 - User](https://github.com/user-attachments/assets/2931c0f9-6f88-4c34-bc64-fafe7e48d10e)
 
 We look through the field names and further down the list we see the field name **user** with the value **ADDC01$**. Why the field name user is interesting is because here we have the account name and when it ends with the $ sign it is an account with privileges. We click on the user to add it to our selected fields.
 
